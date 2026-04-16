@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pydantic
+python-dotenv
+openai  # 用于调用大模型 API (如 Gemini/DeepSeek)
+langchain
+langchain-core
+langchain-community
+langchain-openai
+dashscope
+langgraph
