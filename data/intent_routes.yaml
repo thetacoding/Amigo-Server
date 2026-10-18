@@ -1,0 +1,30 @@
+defaults:
+  score_threshold: 0.5
+
+routes:
+  - name: greeting
+    description: 打招呼与寒暄
+    utterances:
+      - 你好
+      - 你好呀
+      - 早上好
+      - 嗨
+      - 在吗
+
+  - name: weather_query
+    description: 天气相关查询
+    utterances:
+      - 今天北京天气怎么样
+      - 上海明天会下雨吗
+      - 帮我查下深圳天气
+      - 这周末杭州温度如何
+      - 广州现在多少度
+
+  - name: account_help
+    description: 账号与登录帮助
+    utterances:
+      - 我忘记密码了怎么办
+      - 登录不上去
+      - 账号被锁了
+      - 如何修改绑定手机号
+      - 帮我找回账号

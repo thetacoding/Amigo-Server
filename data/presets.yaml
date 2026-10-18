@@ -1,0 +1,68 @@
+app_config:
+  supported_providers: ["aliyun", "deepseek", "tencent"]
+  # 联网检索默认顺序（云侧改 presets 即可生效）；端侧仍可通过 options.web_search_preferred_provider 单次覆盖
+  web_search:
+    provider_priority: ["baidu", "volcengine", "tavily"]
+    fallback: true
+  payment_qrcode_url: "http://api.amigo.com/static/pay_code.png"
+  default_title: "Amigo"
+  default_provider: "tencent"
+  model_providers:
+    aliyun:
+      default_model: "qwen-plus"
+      models:
+        qwen-plus:
+        qwen-max:
+    tencent:
+      default_model: "hunyuan-lite"
+      default_reasoning_model: "hunyuan-reasoner"
+      models:
+        hunyuan-lite:
+        hunyuan-standard:
+        hunyuan-pro:
+        hunyuan-reasoner:
+          reasoning: true
+    deepseek:
+      default_model: "deepseek-chat"
+      default_reasoning_model: "deepseek-reasoner"
+      models:
+        deepseek-chat:
+        deepseek-reasoner:
+          reasoning: true
+
+assets:
+  characters:
+    - id: "speaker"
+      name: "英语陪练"
+      desc: "纯正口音，陪你聊遍各种话题"
+      emoji: "🇬🇧"
+      stage: "stable"
+      avatar: "static/avatars/writer.png"
+      systemPrompt: "你是一个资深英语老师..."
+  agents:
+    - id: "researcher"
+      name: "调研助手"
+      desc: "输入主题，自动搜集并整理资料"
+      emoji: "🔍"
+      stage: "stable"
+      systemPrompt: "你是一个调研助手，请调用搜索工具完成任务..."
+  skills:
+    - id: "联网搜索"
+      name: "联网搜索"
+      desc: "让AI实时访问互联网获取新闻"
+      emoji: "🌐"
+      stage: "stable"
+
+chatSessions:
+  - id: "1"
+    title: "英语陪练"
+    lastMsg: "Hello! How can I help you?"
+    avatar: "🇬🇧"
+    templateId: "speaker"
+    systemPrompt: "你是一个专业的英语外教..."
+  - id: "2"
+    title: "代码医生"
+    lastMsg: "这段代码的 Bug 在第 5 行..."
+    avatar: "💻"
+    templateId: "researcher"
+    systemPrompt: "你是一个资深全栈工程师..."

@@ -1,0 +1,128 @@
+@startuml unified_router_sequence
+title UnifiedServiceRouter.execute — 调用链路（时序图）
+
+skinparam sequenceMessageAlign center
+skinparam ParticipantPadding 20
+
+actor "业务层" as Biz
+participant "UnifiedServiceRouter" as Router
+database "UnifiedRouterConfig" as Cfg
+participant "QuotaStore" as Quota
+participant "BaseCapabilityAdapter" as Adp
+
+Biz -> Router : execute(capability_id,\nparams, preferred_provider?,\nstrict_preferred?)
+
+activate Router
+
+Router -> Router : _rule(capability_id)
+Router -> Cfg : 读取 CapabilityRoutingRule
+Cfg --> Router : priority, fallback
+
+Router -> Router : _build_chain(...)\n得到 provider 顺序列表
+
+loop 遍历链路中的每个 provider_id
+  Router -> Router : 取 adapter、校验 supported_capabilities
+
+  alt 未注册或不支持能力
+    Router -> Router : append RouteAttempt\ncontinue 或抛错(fallback=false)
+  else 额度不可用 is_exhausted
+    Router -> Quota : is_exhausted(provider, capability)
+    Quota --> Router : true / false
+    alt exhausted
+      Router -> Router : append RouteAttempt\ncontinue 或抛错
+    end
+  else 可调用
+    Router -> Adp : await invoke(capability_id, **params)
+    activate Adp
+    alt invoke 成功
+      Adp --> Router : data
+      deactivate Adp
+      Router -> Router : append 成功 RouteAttempt
+      Router --> Biz : **RouteResult**\n(data, provider_id, attempts)
+      note right: 成功则结束 execute
+    else QuotaExhaustedError
+      Adp --> Router : QuotaExhaustedError
+      deactivate Adp
+      Router -> Quota : mark_exhausted(...)
+      opt on_quota_exhausted
+        Router -> Router : await 回调
+      end
+      Router -> Router : append 失败;\n若 fallback 则 continue
+    else 其它异常
+      Adp --> Router : Exception
+      deactivate Adp
+      Router -> Router : log warning;\n若 fallback 则 continue\n否则抛出
+    end
+  end
+end
+
+Router --> Biz : **AllProvidersExhaustedError**\n(全部尝试仍失败)
+
+deactivate Router
+
+@enduml
+
+newpage
+@startuml unified_router_classes
+title unified_router — 核心类型关系（类图）
+
+skinparam classAttributeIconSize 0
+
+class UnifiedRouterConfig {
+  capabilities : Map<String, CapabilityRoutingRule>
+}
+
+class CapabilityRoutingRule {
+  priority : List<String>
+  fallback : boolean
+}
+
+UnifiedRouterConfig *-- "1..*" CapabilityRoutingRule : capabilities >
+
+abstract class BaseCapabilityAdapter {
+  {abstract} supported_capabilities() : FrozenSet<String>
+  {abstract} invoke(capability_id, **params) : Any
+  provider_id : String
+}
+
+class UnifiedServiceRouter {
+  register_adapter(adapter)
+  execute(capability_id, ...) : RouteResult
+  execute_sync(...)
+  _build_chain(...)
+  _rule(...)
+}
+
+class RouteResult {
+  data : Any
+  provider_id : String
+  capability_id : String
+  attempts : List<RouteAttempt>
+}
+
+class RouteAttempt {
+  provider_id : String
+  capability_id : String
+  ok : boolean
+  error : String
+}
+
+interface QuotaStore <<protocol>> {
+  is_exhausted(provider_id, capability_id) : boolean
+  mark_exhausted(...)
+  clear(...)
+}
+
+UnifiedServiceRouter --> UnifiedRouterConfig : 读取路由规则
+UnifiedServiceRouter o-- "0..*" BaseCapabilityAdapter : _adapters
+UnifiedServiceRouter --> QuotaStore : 额度查询/标记
+UnifiedServiceRouter ..> RouteResult : 返回
+RouteResult *-- "0..*" RouteAttempt
+
+note bottom of BaseCapabilityAdapter
+  各厂商子类实现 invoke 内
+  按 capability_id / params 分支
+  （同端点多参数模式）
+end note
+
+@enduml

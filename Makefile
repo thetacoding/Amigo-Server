@@ -9,7 +9,7 @@ LOG_FILE ?= logs/amigo.log
 VENV_PYTHON = venv/bin/python
 VENV_UVICORN = venv/bin/uvicorn
 
-.PHONY: start stop restart status log help install
+.PHONY: start stop restart status log help install test eval-help eval-list eval-preview eval eval-all eval-clean-output
 
 # 帮助信息
 help:
@@ -20,6 +20,7 @@ help:
 	@echo "  make status   - 查看服务运行状态"
 	@echo "  make log      - 实时查看 API 日志"
 	@echo "  make restart  - 重启服务"
+	@echo "  make eval-help - 评测命令帮助"
 
 # 安装依赖
 install:
@@ -37,7 +38,7 @@ start:
 	else \
 		echo "🚀 正在启动 Amigo 服务..."; \
 		export PYTHONPATH=$${PYTHONPATH}:. ; \
-		nohup venv/bin/python app/main.py > $(LOG_FILE) 2>&1 & \
+		nohup $(VENV_UVICORN) app.main:app --host 0.0.0.0 --port $(PORT) > $(LOG_FILE) 2>&1 & \
 		echo "✅ 启动指令已发出。"; \
 		echo "💡 执行 'make status' 确认。"; \
 	fi
@@ -73,3 +74,50 @@ restart: stop start
 # 日志
 log:
 	@tail -f $(LOG_FILE)
+
+test:
+	export PYTHONPATH=. && pytest tests/ -v -s
+
+eval-help:
+	@echo "📊 评测命令:"
+	@echo "  make eval-list"
+	@echo "  make eval-preview TASK=intent_query [LIMIT=5] [HF_DATASET=SetFit/amazon_massive_intent_zh-CN] [HF_CONFIG=] [HF_SPLIT=test]"
+	@echo "  make eval TASK=intent_query [LIMIT=50] [TOP_K=0] [HF_DATASET=SetFit/amazon_massive_intent_zh-CN] [HF_CONFIG=] [HF_SPLIT=test] [OUTPUT_DIR=outputs/eval]"
+	@echo "  make eval-all [LIMIT=0] [TOP_K=0] [OUTPUT_DIR=outputs/eval]"
+	@echo "  make eval-clean-output [OUTPUT_DIR=outputs/eval]"
+
+eval-list:
+	@export PYTHONPATH=$${PYTHONPATH}:. ; \
+	$(VENV_PYTHON) -m app.eval_jobs.runner list
+
+eval-preview:
+	@export PYTHONPATH=$${PYTHONPATH}:. ; \
+	$(VENV_PYTHON) -m app.eval_jobs.runner preview \
+		--task "$(TASK)" \
+		--dataset "$(HF_DATASET)" \
+		--config "$(HF_CONFIG)" \
+		--split "$(HF_SPLIT)" \
+		--limit $${LIMIT:-5}
+
+eval:
+	@export PYTHONPATH=$${PYTHONPATH}:. ; \
+	$(VENV_PYTHON) -m app.eval_jobs.runner run \
+		--task "$(TASK)" \
+		--dataset "$(HF_DATASET)" \
+		--config "$(HF_CONFIG)" \
+		--split "$(HF_SPLIT)" \
+		--limit $${LIMIT:-0} \
+		--top-k $${TOP_K:-0} \
+		--output-dir "$${OUTPUT_DIR:-outputs/eval}"
+
+eval-all:
+	@export PYTHONPATH=$${PYTHONPATH}:. ; \
+	$(VENV_PYTHON) -m app.eval_jobs.runner run-all \
+		--limit $${LIMIT:-0} \
+		--top-k $${TOP_K:-0} \
+		--output-dir "$${OUTPUT_DIR:-outputs/eval}"
+
+eval-clean-output:
+	@export PYTHONPATH=$${PYTHONPATH}:. ; \
+	$(VENV_PYTHON) -m app.eval_jobs.runner clean-output \
+		--output-dir "$${OUTPUT_DIR:-outputs/eval}"

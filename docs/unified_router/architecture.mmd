@@ -1,0 +1,30 @@
+%% Amigo unified_router — 组件与数据流（Mermaid）
+%% 渲染：VS Code “Markdown Preview Mermaid Support”、GitHub、https://mermaid.live
+
+flowchart TB
+    subgraph callers["调用方（示例）"]
+        API["FastAPI / Agent / 任务"]
+        JOB["脚本 / CLI"]
+    end
+
+    subgraph pkg["app.services.unified_router"]
+        R["UnifiedServiceRouter"]
+        CFG["UnifiedRouterConfig\nCapabilityRoutingRule"]
+        QA["QuotaStore\n(InMemoryQuotaStore)"]
+        ADP["BaseCapabilityAdapter\n(各厂商子类)"]
+    end
+
+    subgraph external["外部系统"]
+        HTTP["厂商 HTTP API\n(搜索 / LLM / …)"]
+    end
+
+    API -->|"await execute(capability_id, params, …)"| R
+    JOB -->|"execute_sync(…)"| R
+
+    R -->|"读取 priority / fallback"| CFG
+    R -->|"is_exhausted / mark_exhausted"| QA
+    R -->|"按链路调用"| ADP
+    ADP -->|"HTTP / SDK"| HTTP
+
+    CFG -.->|"构造时注入"| R
+    ADP -.->|"register_adapter"| R

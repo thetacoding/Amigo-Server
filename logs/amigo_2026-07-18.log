@@ -1,0 +1,494 @@
+2026-07-18 13:53:34 | INFO | app.api.v1_app.chat:chat_completions:423 - [Chat] Request: {"sessionInfo":{"session_id":"1","interaction_id":"int_1784354014520_j0l7"},"userInfo":{"user_id":"guest_user"},"DeviceInfo":{"device_id":"653B0C54EAF1F0C3ABF8BCB07A1B26D5"},"AppBaseInfo":{"package_name":"__UNI__1FC6025"},"SystemSetting":{"gps":""},"messages":[{"role":"user","content":"韩国海力士最近股票价格"}],"provider":"tencent","model":"hunyuan-lite","streaming":true,"reasoning":false,"options":{"systemPrompt":"","temperature":0.7,"request_llm":true,"cloud_prompt_template_id":"default_cloud_prompt","web_search_enabled":true,"web_search_format":"both","web_search_content_max_len":280,"web_search_strict_preferred":false}}
+2026-07-18 13:53:35 | INFO | app.api.v1_app.chat:chat_completions:430 - [Chat] LC Messages: [SystemMessage(content='# Role: (none)\n\n## 核心思维逻辑 (Processing Logic)\n你是一个具备高度上下文感知能力和检索分析能力的智能助手。请按以下逻辑处理输入：\n\n1. **意图识别与过滤**：\n  - **社交/闲聊模式**：若用户 Query 仅为问候语（如“你好”、“在吗”）或无实质性信息寻求的对话，请直接根据你的角色设定友好回复，**严禁**引用或解释与问候语无关的搜索结果。\n  - **上下文补全**：若用户 Query 包含代词（如“他”、“那里”）或属于省略句（如“国外呢？”、“为什么？”），必须结合 `Conversation History` 还原用户的真实查询意图。\n\n2. **检索信息处理 (RAG Strategy)**：\n  - **相关性校验**：评估 `Web Search Results` 与用户意图的匹配度。如果搜索结果仅是词典定义或与上下文断层，请将其视为“噪声”并忽略，优先依赖你的内置知识或历史背景。\n  - **时效性优先**：若用户询问事实性、时效性问题，且搜索结果具有高相关性，请以搜索结果为准。\n\n3. **回答生成规范**：\n  - **引用标注**：若使用了检索内容，请在句末使用 [N] 标注来源。\n  - **诚实原则**：若搜索结果无法回答问题，且自身知识库也无确切答案，请明确告知，不要编造。\n\n---\n## 约束条件 (Constraints)\n- 语言风格：专业、简洁、客观。\n- 禁止在闲聊环节提及任何关于“根据搜索结果显示”的内容。\n- 如果用户意图发生偏移，以最新的意图为准。\n\n---\n## 环境上下文 (Environment Context)\n- 当前时间 (UTC): 2026-07-18T05:53:34.950358+00:00\n\n---\n## 动态输入 (Variable Inputs - For KV Cache Optimization)\n### 1. 对话历史 (Conversation History)\nuser: 韩国海力士最近股票价格\n\n### 2. 网页检索结果 (Web Search Results)\n(none)\n\n### 3. 当前用户指令 (Current User Query)\n韩国海力士最近股票价格\n\n---\n## 最终任务执行\n请结合上述逻辑和输入，对用户的 `Current User Query` 给出最专业的回答。\n', additional_kwargs={}, response_metadata={}), HumanMessage(content='韩国海力士最近股票价格', additional_kwargs={}, response_metadata={})]
+2026-07-18 13:53:35 | INFO | app.services.ai.llm.factory:get_model:30 - target_provider: tencent
+2026-07-18 13:53:35 | INFO | app.services.ai.llm.providers:tencent:38 - model_name=hunyuan-lite
+2026-07-18 13:53:37 | ERROR | app.api.v1_app.chat:chat_completions:458 - [Chat] Error during completion
+Traceback (most recent call last):
+
+  File "/opt/champock/myplay/amigo-server/venv/bin/uvicorn", line 8, in <module>
+    sys.exit(main())
+    │   │    └ <Command main>
+    │   └ <built-in function exit>
+    └ <module 'sys' (built-in)>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/click/core.py", line 1161, in __call__
+    return self.main(*args, **kwargs)
+           │    │     │       └ {}
+           │    │     └ ()
+           │    └ <function BaseCommand.main at 0x7f1c4f6c4360>
+           └ <Command main>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/click/core.py", line 1082, in main
+    rv = self.invoke(ctx)
+         │    │      └ <click.core.Context object at 0x7f1c503e8e50>
+         │    └ <function Command.invoke at 0x7f1c4f6c4f40>
+         └ <Command main>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/click/core.py", line 1443, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           │   │      │    │           │   └ {'host': '0.0.0.0', 'port': 9082, 'app': 'app.main:app', 'uds': None, 'fd': None, 'reload': False, 'reload_dirs': (), 'reload...
+           │   │      │    │           └ <click.core.Context object at 0x7f1c503e8e50>
+           │   │      │    └ <function main at 0x7f1c4f617ce0>
+           │   │      └ <Command main>
+           │   └ <function Context.invoke at 0x7f1c4f6a7880>
+           └ <click.core.Context object at 0x7f1c503e8e50>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/click/core.py", line 788, in invoke
+    return __callback(*args, **kwargs)
+                       │       └ {'host': '0.0.0.0', 'port': 9082, 'app': 'app.main:app', 'uds': None, 'fd': None, 'reload': False, 'reload_dirs': (), 'reload...
+                       └ ()
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/uvicorn/main.py", line 433, in main
+    run(
+    └ <function run at 0x7f1c4f5af4c0>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/uvicorn/main.py", line 606, in run
+    server.run()
+    │      └ <function Server.run at 0x7f1c4f76fc40>
+    └ <uvicorn.server.Server object at 0x7f1c4f70bb10>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/uvicorn/server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           │           │    │             │                      │    │      └ <function Config.get_loop_factory at 0x7f1c4f6dbd80>
+           │           │    │             │                      │    └ <uvicorn.config.Config object at 0x7f1c4f72f0d0>
+           │           │    │             │                      └ <uvicorn.server.Server object at 0x7f1c4f70bb10>
+           │           │    │             └ None
+           │           │    └ <function Server.serve at 0x7f1c4f76fce0>
+           │           └ <uvicorn.server.Server object at 0x7f1c4f70bb10>
+           └ <function asyncio_run at 0x7f1c4f6c63e0>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/uvicorn/_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+           │      │   └ <coroutine object Server.serve at 0x7f1c4f5e5c60>
+           │      └ <function Runner.run at 0x7f1c4f91b9c0>
+           └ <asyncio.runners.Runner object at 0x7f1c4f62bb10>
+  File "/usr/lib64/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1' coro=<Server.serve() running at /opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-pack...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x7f1c4f919620>
+           │    └ <_UnixSelectorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x7f1c4f62bb10>
+  File "/usr/lib64/python3.11/asyncio/base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function BaseEventLoop.run_forever at 0x7f1c4f919580>
+    └ <_UnixSelectorEventLoop running=True closed=False debug=False>
+  File "/usr/lib64/python3.11/asyncio/base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x7f1c4f91b380>
+    └ <_UnixSelectorEventLoop running=True closed=False debug=False>
+  File "/usr/lib64/python3.11/asyncio/base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x7f1c4fee18a0>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "/usr/lib64/python3.11/asyncio/events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/uvicorn/protocols/http/h11_impl.py", line 410, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+                   └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x7f1c4f62b1d0>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+                 │    │   │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+                 │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+                 │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+                 │    └ <fastapi.applications.FastAPI object at 0x7f1c49bf4990>
+                 └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x7f1c4f62b1d0>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/fastapi/applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+                           │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+                           │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+                           └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+          │    │                │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+          │    │                └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │    └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x7f1c3deaf050>
+          └ <fastapi.applications.FastAPI object at 0x7f1c49bf4990>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+          │    │   │      │        └ <function ServerErrorMiddleware.__call__.<locals>._send at 0x7f1c28414fe0>
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │    └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x7f1c3deaf0d0>
+          └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x7f1c3deaf050>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+          │                            │    │    │     │      │        └ <function ServerErrorMiddleware.__call__.<locals>._send at 0x7f1c28414fe0>
+          │                            │    │    │     │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+          │                            │    │    │     └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │                            │    │    └ <starlette.requests.Request object at 0x7f1c3bbd41d0>
+          │                            │    └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x7f1c3deaf090>
+          │                            └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x7f1c3deaf0d0>
+          └ <function wrap_app_handling_exceptions at 0x7f1c4e837d80>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x7f1c4d2467a0>
+          │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+          │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x7f1c3deaf090>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x7f1c4d2467a0>
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │    └ <fastapi.routing.APIRouter object at 0x7f1c3de9aa90>
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x7f1c3deaf090>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x7f1c4d2467a0>
+          │    │                │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+          │    │                └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │    └ <bound method Router.app of <fastapi.routing.APIRouter object at 0x7f1c3de9aa90>>
+          └ <fastapi.routing.APIRouter object at 0x7f1c3de9aa90>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+          │     │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x7f1c4d2467a0>
+          │     │      │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+          │     │      └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │     └ <function Route.handle at 0x7f1c4e859300>
+          └ APIRoute(path='/api/v1_app/chat/completions', name='chat_completions', methods=['POST'])
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x7f1c4d2467a0>
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │    └ <function request_response.<locals>.app at 0x7f1c3de5b7e0>
+          └ APIRoute(path='/api/v1_app/chat/completions', name='chat_completions', methods=['POST'])
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+          │                            │    │        │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x7f1c4d2467a0>
+          │                            │    │        │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+          │                            │    │        └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │                            │    └ <starlette.requests.Request object at 0x7f1c282bf9d0>
+          │                            └ <function request_response.<locals>.app.<locals>.app at 0x7f1c4d246840>
+          └ <function wrap_app_handling_exceptions at 0x7f1c4e837d80>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x7f1c4d2472e0>
+          │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c283e0550>>
+          │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          └ <function request_response.<locals>.app.<locals>.app at 0x7f1c4d246840>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+                     │ └ <starlette.requests.Request object at 0x7f1c282bf9d0>
+                     └ <function get_request_handler.<locals>.app at 0x7f1c3de5b740>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                         └ <function run_endpoint_function at 0x7f1c4e85b380>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+                 │         │      └ {'req': ChatRequest(sessionInfo=SessionInfo(session_id='1', interaction_id='int_1784354014520_j0l7'), userInfo=UserInfo(user_...
+                 │         └ <function chat_completions at 0x7f1c3de21f80>
+                 └ Dependant(path_params=[], query_params=[], header_params=[], cookie_params=[], body_params=[ModelField(field_info=Body(Pydant...
+
+> File "/opt/champock/myplay/amigo-server/app/api/v1_app/chat.py", line 443, in chat_completions
+    lc_messages, web_search_payload, query_understanding = await _run_web_search_agent_if_needed(
+    │            │                                               └ <function _run_web_search_agent_if_needed at 0x7f1c3de23e20>
+    │            └ None
+    └ [SystemMessage(content='# Role: (none)\n\n## 核心思维逻辑 (Processing Logic)\n你是一个具备高度上下文感知能力和检索分析能力的智能助手。请按以下逻辑处理输入：\n\n1. **意图识别与...
+
+  File "/opt/champock/myplay/amigo-server/app/api/v1_app/chat.py", line 224, in _run_web_search_agent_if_needed
+    decision = await agent_runnable.ainvoke(decision_messages)
+                     │              │       └ [SystemMessage(content='你是一个可使用 web_search 工具的助手。请先判断用户问题是否需要联网检索最新事实、实时信息、外部网页内容。如果是寒暄、闲聊、通用常识、无需实时性的内容，不要调用 web_search。若调用 ...
+                     │              └ <function RunnableBindingBase.ainvoke at 0x7f1c4d6a4cc0>
+                     └ RunnableBinding(bound=ChatOpenAI(client=<openai.resources.chat.completions.completions.Completions object at 0x7f1c3bbb4790>,...
+
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_core/runnables/base.py", line 5708, in ainvoke
+    return await self.bound.ainvoke(
+                 │    │     └ <function BaseChatModel.ainvoke at 0x7f1c4d6eb740>
+                 │    └ ChatOpenAI(client=<openai.resources.chat.completions.completions.Completions object at 0x7f1c3bbb4790>, async_client=<openai....
+                 └ RunnableBinding(bound=ChatOpenAI(client=<openai.resources.chat.completions.completions.Completions object at 0x7f1c3bbb4790>,...
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_core/language_models/chat_models.py", line 477, in ainvoke
+    llm_result = await self.agenerate_prompt(
+                       │    └ <function BaseChatModel.agenerate_prompt at 0x7f1c4d7180e0>
+                       └ ChatOpenAI(client=<openai.resources.chat.completions.completions.Completions object at 0x7f1c3bbb4790>, async_client=<openai....
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_core/language_models/chat_models.py", line 1196, in agenerate_prompt
+    return await self.agenerate(
+                 │    └ <function BaseChatModel.agenerate at 0x7f1c4d6ebf60>
+                 └ ChatOpenAI(client=<openai.resources.chat.completions.completions.Completions object at 0x7f1c3bbb4790>, async_client=<openai....
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_core/language_models/chat_models.py", line 1154, in agenerate
+    raise exceptions[0]
+          └ [BadRequestError("Error code: 400 - {'error': {'id': '61d1734b89b88845655ed087d3263201', 'message': '该模型已下线，请根据迁移指南前往TokenHub...
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_core/language_models/chat_models.py", line 1380, in _agenerate_with_cache
+    async for chunk in self._astream(messages, stop=stop, **kwargs):
+                       │    │        │              │       └ {'tools': [{'type': 'function', 'function': {'name': 'web_search', 'description': '当问题需要联网检索实时/外部信息时调用。', 'parameters': {'pro...
+                       │    │        │              └ None
+                       │    │        └ [SystemMessage(content='你是一个可使用 web_search 工具的助手。请先判断用户问题是否需要联网检索最新事实、实时信息、外部网页内容。如果是寒暄、闲聊、通用常识、无需实时性的内容，不要调用 web_search。若调用 ...
+                       │    └ <function ChatOpenAI._astream at 0x7f1c4cb9b2e0>
+                       └ ChatOpenAI(client=<openai.resources.chat.completions.completions.Completions object at 0x7f1c3bbb4790>, async_client=<openai....
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_openai/chat_models/base.py", line 3205, in _astream
+    async for chunk in super()._astream(*args, **kwargs):
+                                         │       └ {'stop': None, 'tools': [{'type': 'function', 'function': {'name': 'web_search', 'description': '当问题需要联网检索实时/外部信息时调用。', 'para...
+                                         └ ([SystemMessage(content='你是一个可使用 web_search 工具的助手。请先判断用户问题是否需要联网检索最新事实、实时信息、外部网页内容。如果是寒暄、闲聊、通用常识、无需实时性的内容，不要调用 web_search。若调用...
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_openai/chat_models/base.py", line 1707, in _astream
+    _handle_openai_bad_request(e)
+    └ <function _handle_openai_bad_request at 0x7f1c4cb99580>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_openai/chat_models/base.py", line 1682, in _astream
+    response = await self.async_client.create(**payload)
+                     │    │            │        └ {'model': 'hunyuan-lite', 'stream': True, 'tools': [{'type': 'function', 'function': {'name': 'web_search', 'description': '当...
+                     │    │            └ <function AsyncCompletions.create at 0x7f1c2866bf60>
+                     │    └ <openai.resources.chat.completions.completions.AsyncCompletions object at 0x7f1c282bf850>
+                     └ ChatOpenAI(client=<openai.resources.chat.completions.completions.Completions object at 0x7f1c3bbb4790>, async_client=<openai....
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/openai/resources/chat/completions/completions.py", line 2700, in create
+    return await self._post(
+                 │    └ <bound method AsyncAPIClient.post of <openai.AsyncOpenAI object at 0x7f1c3bbb5e90>>
+                 └ <openai.resources.chat.completions.completions.AsyncCompletions object at 0x7f1c282bf850>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/openai/_base_client.py", line 1884, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+                 │    │       │        │            │                  └ openai.AsyncStream[openai.types.chat.chat_completion_chunk.ChatCompletionChunk]
+                 │    │       │        │            └ True
+                 │    │       │        └ FinalRequestOptions(method='post', url='/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GIVEN, timeout=NOT_...
+                 │    │       └ <class 'openai.types.chat.chat_completion.ChatCompletion'>
+                 │    └ <function AsyncAPIClient.request at 0x7f1c4cdd3f60>
+                 └ <openai.AsyncOpenAI object at 0x7f1c3bbb5e90>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/openai/_base_client.py", line 1669, in request
+    raise self._make_status_error_from_response(err.response) from None
+          │    └ <function BaseClient._make_status_error_from_response at 0x7f1c4cdd1440>
+          └ <openai.AsyncOpenAI object at 0x7f1c3bbb5e90>
+
+openai.BadRequestError: Error code: 400 - {'error': {'id': '61d1734b89b88845655ed087d3263201', 'message': '该模型已下线，请根据迁移指南前往TokenHub平台体验最新模型服务。（详见：https://cloud.tencent.com/document/product/1729/131925）', 'type': 'runtime_error', 'param': None, 'code': '2030'}}
+2026-07-18 13:53:52 | INFO | app.api.v1_app.chat:chat_completions:423 - [Chat] Request: {"sessionInfo":{"session_id":"1","interaction_id":"int_1784354032555_sg72"},"userInfo":{"user_id":"guest_user"},"DeviceInfo":{"device_id":"653B0C54EAF1F0C3ABF8BCB07A1B26D5"},"AppBaseInfo":{"package_name":"__UNI__1FC6025"},"SystemSetting":{"gps":""},"messages":[{"role":"user","content":"韩国海力士最近股票价格"},{"role":"assistant","content":""},{"role":"user","content":"你好"}],"provider":"tencent","model":"hunyuan-lite","streaming":true,"reasoning":false,"options":{"systemPrompt":"","temperature":0.7,"request_llm":true,"cloud_prompt_template_id":"default_cloud_prompt","web_search_enabled":true,"web_search_format":"both","web_search_content_max_len":280,"web_search_strict_preferred":false}}
+2026-07-18 13:53:52 | INFO | app.api.v1_app.chat:chat_completions:430 - [Chat] LC Messages: [SystemMessage(content='# Role: (none)\n\n## 核心思维逻辑 (Processing Logic)\n你是一个具备高度上下文感知能力和检索分析能力的智能助手。请按以下逻辑处理输入：\n\n1. **意图识别与过滤**：\n  - **社交/闲聊模式**：若用户 Query 仅为问候语（如“你好”、“在吗”）或无实质性信息寻求的对话，请直接根据你的角色设定友好回复，**严禁**引用或解释与问候语无关的搜索结果。\n  - **上下文补全**：若用户 Query 包含代词（如“他”、“那里”）或属于省略句（如“国外呢？”、“为什么？”），必须结合 `Conversation History` 还原用户的真实查询意图。\n\n2. **检索信息处理 (RAG Strategy)**：\n  - **相关性校验**：评估 `Web Search Results` 与用户意图的匹配度。如果搜索结果仅是词典定义或与上下文断层，请将其视为“噪声”并忽略，优先依赖你的内置知识或历史背景。\n  - **时效性优先**：若用户询问事实性、时效性问题，且搜索结果具有高相关性，请以搜索结果为准。\n\n3. **回答生成规范**：\n  - **引用标注**：若使用了检索内容，请在句末使用 [N] 标注来源。\n  - **诚实原则**：若搜索结果无法回答问题，且自身知识库也无确切答案，请明确告知，不要编造。\n\n---\n## 约束条件 (Constraints)\n- 语言风格：专业、简洁、客观。\n- 禁止在闲聊环节提及任何关于“根据搜索结果显示”的内容。\n- 如果用户意图发生偏移，以最新的意图为准。\n\n---\n## 环境上下文 (Environment Context)\n- 当前时间 (UTC): 2026-07-18T05:53:52.549520+00:00\n\n---\n## 动态输入 (Variable Inputs - For KV Cache Optimization)\n### 1. 对话历史 (Conversation History)\nuser: 韩国海力士最近股票价格\nuser: 你好\n\n### 2. 网页检索结果 (Web Search Results)\n(none)\n\n### 3. 当前用户指令 (Current User Query)\n你好\n\n---\n## 最终任务执行\n请结合上述逻辑和输入，对用户的 `Current User Query` 给出最专业的回答。\n', additional_kwargs={}, response_metadata={}), HumanMessage(content='韩国海力士最近股票价格', additional_kwargs={}, response_metadata={}), AIMessage(content='', additional_kwargs={}, response_metadata={}, tool_calls=[], invalid_tool_calls=[]), HumanMessage(content='你好', additional_kwargs={}, response_metadata={})]
+2026-07-18 13:53:52 | INFO | app.services.ai.llm.factory:get_model:30 - target_provider: tencent
+2026-07-18 13:53:52 | INFO | app.services.ai.llm.providers:tencent:38 - model_name=hunyuan-lite
+2026-07-18 13:53:52 | ERROR | app.api.v1_app.chat:chat_completions:458 - [Chat] Error during completion
+Traceback (most recent call last):
+
+  File "/opt/champock/myplay/amigo-server/venv/bin/uvicorn", line 8, in <module>
+    sys.exit(main())
+    │   │    └ <Command main>
+    │   └ <built-in function exit>
+    └ <module 'sys' (built-in)>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/click/core.py", line 1161, in __call__
+    return self.main(*args, **kwargs)
+           │    │     │       └ {}
+           │    │     └ ()
+           │    └ <function BaseCommand.main at 0x7f1c4f6c4360>
+           └ <Command main>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/click/core.py", line 1082, in main
+    rv = self.invoke(ctx)
+         │    │      └ <click.core.Context object at 0x7f1c503e8e50>
+         │    └ <function Command.invoke at 0x7f1c4f6c4f40>
+         └ <Command main>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/click/core.py", line 1443, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           │   │      │    │           │   └ {'host': '0.0.0.0', 'port': 9082, 'app': 'app.main:app', 'uds': None, 'fd': None, 'reload': False, 'reload_dirs': (), 'reload...
+           │   │      │    │           └ <click.core.Context object at 0x7f1c503e8e50>
+           │   │      │    └ <function main at 0x7f1c4f617ce0>
+           │   │      └ <Command main>
+           │   └ <function Context.invoke at 0x7f1c4f6a7880>
+           └ <click.core.Context object at 0x7f1c503e8e50>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/click/core.py", line 788, in invoke
+    return __callback(*args, **kwargs)
+                       │       └ {'host': '0.0.0.0', 'port': 9082, 'app': 'app.main:app', 'uds': None, 'fd': None, 'reload': False, 'reload_dirs': (), 'reload...
+                       └ ()
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/uvicorn/main.py", line 433, in main
+    run(
+    └ <function run at 0x7f1c4f5af4c0>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/uvicorn/main.py", line 606, in run
+    server.run()
+    │      └ <function Server.run at 0x7f1c4f76fc40>
+    └ <uvicorn.server.Server object at 0x7f1c4f70bb10>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/uvicorn/server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           │           │    │             │                      │    │      └ <function Config.get_loop_factory at 0x7f1c4f6dbd80>
+           │           │    │             │                      │    └ <uvicorn.config.Config object at 0x7f1c4f72f0d0>
+           │           │    │             │                      └ <uvicorn.server.Server object at 0x7f1c4f70bb10>
+           │           │    │             └ None
+           │           │    └ <function Server.serve at 0x7f1c4f76fce0>
+           │           └ <uvicorn.server.Server object at 0x7f1c4f70bb10>
+           └ <function asyncio_run at 0x7f1c4f6c63e0>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/uvicorn/_compat.py", line 30, in asyncio_run
+    return runner.run(main)
+           │      │   └ <coroutine object Server.serve at 0x7f1c4f5e5c60>
+           │      └ <function Runner.run at 0x7f1c4f91b9c0>
+           └ <asyncio.runners.Runner object at 0x7f1c4f62bb10>
+  File "/usr/lib64/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           │    │     │                  └ <Task pending name='Task-1' coro=<Server.serve() running at /opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-pack...
+           │    │     └ <function BaseEventLoop.run_until_complete at 0x7f1c4f919620>
+           │    └ <_UnixSelectorEventLoop running=True closed=False debug=False>
+           └ <asyncio.runners.Runner object at 0x7f1c4f62bb10>
+  File "/usr/lib64/python3.11/asyncio/base_events.py", line 640, in run_until_complete
+    self.run_forever()
+    │    └ <function BaseEventLoop.run_forever at 0x7f1c4f919580>
+    └ <_UnixSelectorEventLoop running=True closed=False debug=False>
+  File "/usr/lib64/python3.11/asyncio/base_events.py", line 607, in run_forever
+    self._run_once()
+    │    └ <function BaseEventLoop._run_once at 0x7f1c4f91b380>
+    └ <_UnixSelectorEventLoop running=True closed=False debug=False>
+  File "/usr/lib64/python3.11/asyncio/base_events.py", line 1922, in _run_once
+    handle._run()
+    │      └ <function Handle._run at 0x7f1c4fee18a0>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "/usr/lib64/python3.11/asyncio/events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+    │    │            │    │           │    └ <member '_args' of 'Handle' objects>
+    │    │            │    │           └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    │            │    └ <member '_callback' of 'Handle' objects>
+    │    │            └ <Handle Task.task_wakeup(<Future finished result=None>)>
+    │    └ <member '_context' of 'Handle' objects>
+    └ <Handle Task.task_wakeup(<Future finished result=None>)>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/uvicorn/protocols/http/h11_impl.py", line 410, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+                   └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x7f1c4f62b1d0>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+                 │    │   │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+                 │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+                 │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+                 │    └ <fastapi.applications.FastAPI object at 0x7f1c49bf4990>
+                 └ <uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware object at 0x7f1c4f62b1d0>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/fastapi/applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+                           │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+                           │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+                           └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <bound method RequestResponseCycle.send of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+          │    │                │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+          │    │                └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │    └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x7f1c3deaf050>
+          └ <fastapi.applications.FastAPI object at 0x7f1c49bf4990>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+          │    │   │      │        └ <function ServerErrorMiddleware.__call__.<locals>._send at 0x7f1c28415260>
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │    └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x7f1c3deaf0d0>
+          └ <starlette.middleware.errors.ServerErrorMiddleware object at 0x7f1c3deaf050>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+          │                            │    │    │     │      │        └ <function ServerErrorMiddleware.__call__.<locals>._send at 0x7f1c28415260>
+          │                            │    │    │     │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+          │                            │    │    │     └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │                            │    │    └ <starlette.requests.Request object at 0x7f1c282bc5d0>
+          │                            │    └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x7f1c3deaf090>
+          │                            └ <starlette.middleware.exceptions.ExceptionMiddleware object at 0x7f1c3deaf0d0>
+          └ <function wrap_app_handling_exceptions at 0x7f1c4e837d80>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x7f1c4d2467a0>
+          │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+          │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x7f1c3deaf090>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x7f1c4d2467a0>
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │    └ <fastapi.routing.APIRouter object at 0x7f1c3de9aa90>
+          └ <fastapi.middleware.asyncexitstack.AsyncExitStackMiddleware object at 0x7f1c3deaf090>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+          │    │                │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x7f1c4d2467a0>
+          │    │                │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+          │    │                └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │    └ <bound method Router.app of <fastapi.routing.APIRouter object at 0x7f1c3de9aa90>>
+          └ <fastapi.routing.APIRouter object at 0x7f1c3de9aa90>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+          │     │      │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x7f1c4d2467a0>
+          │     │      │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+          │     │      └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │     └ <function Route.handle at 0x7f1c4e859300>
+          └ APIRoute(path='/api/v1_app/chat/completions', name='chat_completions', methods=['POST'])
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+          │    │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x7f1c4d2467a0>
+          │    │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+          │    │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │    └ <function request_response.<locals>.app at 0x7f1c3de5b7e0>
+          └ APIRoute(path='/api/v1_app/chat/completions', name='chat_completions', methods=['POST'])
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+          │                            │    │        │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x7f1c4d2467a0>
+          │                            │    │        │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+          │                            │    │        └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          │                            │    └ <starlette.requests.Request object at 0x7f1c282be650>
+          │                            └ <function request_response.<locals>.app.<locals>.app at 0x7f1c4d247100>
+          └ <function wrap_app_handling_exceptions at 0x7f1c4e837d80>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+          │   │      │        └ <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x7f1c4d247420>
+          │   │      └ <bound method RequestResponseCycle.receive of <uvicorn.protocols.http.h11_impl.RequestResponseCycle object at 0x7f1c282bd310>>
+          │   └ {'type': 'http', 'asgi': {'version': '3.0', 'spec_version': '2.3'}, 'http_version': '1.1', 'server': ('10.0.0.10', 9082), 'cl...
+          └ <function request_response.<locals>.app.<locals>.app at 0x7f1c4d247100>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+                     │ └ <starlette.requests.Request object at 0x7f1c282be650>
+                     └ <function get_request_handler.<locals>.app at 0x7f1c3de5b740>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                         └ <function run_endpoint_function at 0x7f1c4e85b380>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+                 │         │      └ {'req': ChatRequest(sessionInfo=SessionInfo(session_id='1', interaction_id='int_1784354032555_sg72'), userInfo=UserInfo(user_...
+                 │         └ <function chat_completions at 0x7f1c3de21f80>
+                 └ Dependant(path_params=[], query_params=[], header_params=[], cookie_params=[], body_params=[ModelField(field_info=Body(Pydant...
+
+> File "/opt/champock/myplay/amigo-server/app/api/v1_app/chat.py", line 443, in chat_completions
+    lc_messages, web_search_payload, query_understanding = await _run_web_search_agent_if_needed(
+    │            │                                               └ <function _run_web_search_agent_if_needed at 0x7f1c3de23e20>
+    │            └ None
+    └ [SystemMessage(content='# Role: (none)\n\n## 核心思维逻辑 (Processing Logic)\n你是一个具备高度上下文感知能力和检索分析能力的智能助手。请按以下逻辑处理输入：\n\n1. **意图识别与...
+
+  File "/opt/champock/myplay/amigo-server/app/api/v1_app/chat.py", line 224, in _run_web_search_agent_if_needed
+    decision = await agent_runnable.ainvoke(decision_messages)
+                     │              │       └ [SystemMessage(content='你是一个可使用 web_search 工具的助手。请先判断用户问题是否需要联网检索最新事实、实时信息、外部网页内容。如果是寒暄、闲聊、通用常识、无需实时性的内容，不要调用 web_search。若调用 ...
+                     │              └ <function RunnableBindingBase.ainvoke at 0x7f1c4d6a4cc0>
+                     └ RunnableBinding(bound=ChatOpenAI(client=<openai.resources.chat.completions.completions.Completions object at 0x7f1c177b17d0>,...
+
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_core/runnables/base.py", line 5708, in ainvoke
+    return await self.bound.ainvoke(
+                 │    │     └ <function BaseChatModel.ainvoke at 0x7f1c4d6eb740>
+                 │    └ ChatOpenAI(client=<openai.resources.chat.completions.completions.Completions object at 0x7f1c177b17d0>, async_client=<openai....
+                 └ RunnableBinding(bound=ChatOpenAI(client=<openai.resources.chat.completions.completions.Completions object at 0x7f1c177b17d0>,...
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_core/language_models/chat_models.py", line 477, in ainvoke
+    llm_result = await self.agenerate_prompt(
+                       │    └ <function BaseChatModel.agenerate_prompt at 0x7f1c4d7180e0>
+                       └ ChatOpenAI(client=<openai.resources.chat.completions.completions.Completions object at 0x7f1c177b17d0>, async_client=<openai....
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_core/language_models/chat_models.py", line 1196, in agenerate_prompt
+    return await self.agenerate(
+                 │    └ <function BaseChatModel.agenerate at 0x7f1c4d6ebf60>
+                 └ ChatOpenAI(client=<openai.resources.chat.completions.completions.Completions object at 0x7f1c177b17d0>, async_client=<openai....
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_core/language_models/chat_models.py", line 1154, in agenerate
+    raise exceptions[0]
+          └ [BadRequestError("Error code: 400 - {'error': {'id': 'fea1274609ea3a0880a926bd622e6609', 'message': '该模型已下线，请根据迁移指南前往TokenHub...
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_core/language_models/chat_models.py", line 1380, in _agenerate_with_cache
+    async for chunk in self._astream(messages, stop=stop, **kwargs):
+                       │    │        │              │       └ {'tools': [{'type': 'function', 'function': {'name': 'web_search', 'description': '当问题需要联网检索实时/外部信息时调用。', 'parameters': {'pro...
+                       │    │        │              └ None
+                       │    │        └ [SystemMessage(content='你是一个可使用 web_search 工具的助手。请先判断用户问题是否需要联网检索最新事实、实时信息、外部网页内容。如果是寒暄、闲聊、通用常识、无需实时性的内容，不要调用 web_search。若调用 ...
+                       │    └ <function ChatOpenAI._astream at 0x7f1c4cb9b2e0>
+                       └ ChatOpenAI(client=<openai.resources.chat.completions.completions.Completions object at 0x7f1c177b17d0>, async_client=<openai....
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_openai/chat_models/base.py", line 3205, in _astream
+    async for chunk in super()._astream(*args, **kwargs):
+                                         │       └ {'stop': None, 'tools': [{'type': 'function', 'function': {'name': 'web_search', 'description': '当问题需要联网检索实时/外部信息时调用。', 'para...
+                                         └ ([SystemMessage(content='你是一个可使用 web_search 工具的助手。请先判断用户问题是否需要联网检索最新事实、实时信息、外部网页内容。如果是寒暄、闲聊、通用常识、无需实时性的内容，不要调用 web_search。若调用...
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_openai/chat_models/base.py", line 1707, in _astream
+    _handle_openai_bad_request(e)
+    └ <function _handle_openai_bad_request at 0x7f1c4cb99580>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/langchain_openai/chat_models/base.py", line 1682, in _astream
+    response = await self.async_client.create(**payload)
+                     │    │            │        └ {'model': 'hunyuan-lite', 'stream': True, 'tools': [{'type': 'function', 'function': {'name': 'web_search', 'description': '当...
+                     │    │            └ <function AsyncCompletions.create at 0x7f1c2866bf60>
+                     │    └ <openai.resources.chat.completions.completions.AsyncCompletions object at 0x7f1c177b23d0>
+                     └ ChatOpenAI(client=<openai.resources.chat.completions.completions.Completions object at 0x7f1c177b17d0>, async_client=<openai....
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/openai/resources/chat/completions/completions.py", line 2700, in create
+    return await self._post(
+                 │    └ <bound method AsyncAPIClient.post of <openai.AsyncOpenAI object at 0x7f1c177b1b90>>
+                 └ <openai.resources.chat.completions.completions.AsyncCompletions object at 0x7f1c177b23d0>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/openai/_base_client.py", line 1884, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+                 │    │       │        │            │                  └ openai.AsyncStream[openai.types.chat.chat_completion_chunk.ChatCompletionChunk]
+                 │    │       │        │            └ True
+                 │    │       │        └ FinalRequestOptions(method='post', url='/chat/completions', params={}, headers=NOT_GIVEN, max_retries=NOT_GIVEN, timeout=NOT_...
+                 │    │       └ <class 'openai.types.chat.chat_completion.ChatCompletion'>
+                 │    └ <function AsyncAPIClient.request at 0x7f1c4cdd3f60>
+                 └ <openai.AsyncOpenAI object at 0x7f1c177b1b90>
+  File "/opt/champock/myplay/amigo-server/venv/lib64/python3.11/site-packages/openai/_base_client.py", line 1669, in request
+    raise self._make_status_error_from_response(err.response) from None
+          │    └ <function BaseClient._make_status_error_from_response at 0x7f1c4cdd1440>
+          └ <openai.AsyncOpenAI object at 0x7f1c177b1b90>
+
+openai.BadRequestError: Error code: 400 - {'error': {'id': 'fea1274609ea3a0880a926bd622e6609', 'message': '该模型已下线，请根据迁移指南前往TokenHub平台体验最新模型服务。（详见：https://cloud.tencent.com/document/product/1729/131925）', 'type': 'runtime_error', 'param': None, 'code': '2030'}}
